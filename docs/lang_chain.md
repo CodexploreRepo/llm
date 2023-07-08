@@ -3,7 +3,7 @@
 ## Intro
 - Lang Chain is an open-source development framework Large Language Models (LLMs).
 - Lang Chain components:
-  - **Models**:
+  - **Models**: there are 3 types of models
     - LLMs: 20+ integrations
     - Chat Models:
     - Text Embedding Models: 20+ integrations
@@ -23,3 +23,5 @@
   - **Agents**:
     - Agent Types: algorithm for getting LLMs to use tools
     - Agent Toolkit: 
+
+## Models
