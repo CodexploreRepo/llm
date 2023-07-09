@@ -1,6 +1,6 @@
 # Prompt Engineering
 ## Prompt Template
-## Ouput Parsing
+## Ouput Parser
 - Chain-of-thought Reasoning (ReAct):
   - `Thought`: give a topic to LLM to think
   - `Action`: to carry a specific action
