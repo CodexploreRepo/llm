@@ -68,3 +68,21 @@ AI:
 conversation.predict(input="What is my name?")
 # 'Your name is Andrew.'
 ```
+- Check what is store inside the memory
+```Python
+print(memory.buffer)
+"""
+Human: Hi, my name is Andrew
+AI: Hello Andrew! It's nice to meet you. How can I assist you today?
+Human: What is 1+1?
+AI: 1+1 is equal to 2.
+Human: What is my name?
+AI: Your name is Andrew.
+Human: What is my name?
+AI: Your name is Andrew.
+"""
+print(memory.load_memory_variables({}))
+"""
+{'history': "Human: Hi, my name is Andrew\nAI: Hello Andrew! It's nice to meet you. How can I assist you today?\nHuman: What is 1+1?\nAI: 1+1 is equal to 2.\nHuman: What is my name?\nAI: Your name is Andrew.\nHuman: What is my name?\nAI: Your name is Andrew."}
+"""
+```
