@@ -10,7 +10,7 @@
 - **Vector data memory**: stores text (from converstaion or else where) in a vector databsae and retrieves the most relevant blocks of text
 - **Entity memories**: using an LLM, it remembers details about specific
 
-### `ConversationBufferMemory`
+### Conversation Buffer Memory
 - Define LLM model, in this case is ChatOpenAI or `model=gpt-3.5-turbo`
 ```Python
 # create LLM model
@@ -87,7 +87,7 @@ print(memory.load_memory_variables({}))
 """
 ```
 
-### `ConversationBufferWindowMemory`
+### Conversation Buffer Window Memory
 -  keeps a list of `k` interactions of the conversation over time.
 ```Python
 from langchain.memory import ConversationBufferWindowMemory
@@ -103,7 +103,7 @@ print(memory.load_memory_variables({}))
 # {'history': 'Human: Not much, just hanging\nAI: Cool'}
 ```
 
-### `ConversationTokenBufferMemory` 
+### Conversation Token Buffer Memory
 - keeps a buffer of recent interactions in memory by token length rather than number of interactions to determine when to flush previous interaction tokens
 ```Python
 from langchain.memory import ConversationTokenBufferMemory
@@ -121,7 +121,7 @@ print(memory.load_memory_variables({}))
 # {'history': 'Human: Backpropagation is what?\nAI: Beautiful!\nHuman: Chatbots are what?\nAI: Charming!'}
 ```
 
-### ConversationSummaryMemory
+### Conversation Summary Memory
 - `ConversationSummaryMemory`: use an LLM to write a summary of the conversation so far, and let that be the memory.
 ```Python
 # create a long string
