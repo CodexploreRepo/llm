@@ -23,5 +23,12 @@
   - **Agents**:
     - Agent Types: algorithm for getting LLMs to use tools
     - Agent Toolkit: 
-
+## Installation
+```python
+pip install --upgrade langchain
+```
 ## Models
+### LLM
+- `temperature` to control randomness and creativity of the generated text by an LLM
+  - `temperature=0.7` default value
+  - `temperature=0.0` no randomness
