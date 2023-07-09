@@ -45,6 +45,7 @@ print(type(customer_messages[0]))    # <class 'langchain.schema.HumanMessage'>
 ```Python
 from langchain.chat_models import ChatOpenAI
 # to control the randomness and creativity of the generated text by an LLM, use temperature = 0.0
+# default model_name='gpt-3.5-turbo'
 chat = ChatOpenAI(temperature=0.0)
 
 # call the LLM to translate to the style of the customer message
@@ -101,7 +102,7 @@ response_schemas = [gift_schema,
 # structure the output parser from response_schemas
 output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
 
-# create a prompt to format the output
+# create a prompt to format the output from response schemas
 format_instructions = output_parser.get_format_instructions()
 
 
@@ -109,16 +110,16 @@ print(format_instructions)
 """
 The output should be a markdown code snippet formatted in the following schema, including the leading and trailing "\`\`\`json" and "\`\`\`":
 
-```json
+\`\`\`json
 {
 	"gift": string  // Was the item purchased as a gift for someone else? Answer True if yes, False if not or unknown.
 	"delivery_days": string  // How many days did it take for the product to arrive? If this information is not found, output -1.
 	"price_value": string  // Extract any sentences about the value or price, and output them as a comma separated Python list.
 }
-```
+\`\`\`
 """
 ```
-- 
+- Define the template string with the `format_instructions` output parser
 ```Python
 review_template = """\
 For the following text, extract the following information:
@@ -136,9 +137,74 @@ text: {text}
 
 {format_instructions}
 """
-
+```
+- Define the prompt template with the string template `review_template`
+```Python
 prompt = ChatPromptTemplate.from_template(template=review_template)
-messages = prompt.format_messages(text=customer_review, 
-                                format_instructions=format_instructions)
 
+print(prompt.input_variables) # ['text', 'format_instructions']
+```
+- Create the prompt with 2 inputs `text` and the `format_instructions`
+```Python
+customer_review = """\
+This leaf blower is pretty amazing.  It has four settings:\
+candle blower, gentle breeze, windy city, and tornado. \
+It arrived in two days, just in time for my wife's \
+anniversary present. \
+I think my wife liked it so much she was speechless. \
+So far I've been the only one using it, and I've been \
+using it every other morning to clear the leaves on our lawn. \
+It's slightly more expensive than the other leaf blowers \
+out there, but I think it's worth it for the extra features.
+"""
+messages = prompt.format_messages(text=customer_review, 
+                                  format_instructions=format_instructions)
+
+print(messages[0].content)
+"""
+For the following text, extract the following information:
+
+gift: Was the item purchased as a gift for someone else? Answer True if yes, False if not or unknown.
+
+delivery_days: How many days did it take for the productto arrive? If this information is not found, output -1.
+
+price_value: Extract any sentences about the value or price,and output them as a comma separated Python list.
+
+text: This leaf blower is pretty amazing.  It has four settings:candle blower, gentle breeze, windy city, and tornado. It arrived in two days, just in time for my wife's anniversary present. I think my wife liked it so much she was speechless. So far I've been the only one using it, and I've been using it every other morning to clear the leaves on our lawn. It's slightly more expensive than the other leaf blowers out there, but I think it's worth it for the extra features.
+
+
+The output should be a markdown code snippet formatted in the following schema, including the leading and trailing "\`\`\`json" and "\`\`\`":
+
+\`\`\`json
+{
+	"gift": string  // Was the item purchased                             as a gift for someone else?                              Answer True if yes,                             False if not or unknown.
+	"delivery_days": string  // How many days                                      did it take for the product                                      to arrive? If this                                       information is not found,                                      output -1.
+	"price_value": string  // Extract any                                    sentences about the value or                                     price, and output them as a                                     comma separated Python list.
+}
+\`\`\`
+"""
+```
+- Call the LLM chat instance to process the message
+```Python
+response = chat(messages)
+print(response.content)
+"""
+\`\`\`json
+{
+	"gift": false,
+	"delivery_days": "2",
+	"price_value": "It's slightly more expensive than the other leaf blowers out there, but I think it's worth it for the extra features."
+}
+\`\`\`
+"""
+# parse the output to Python Dictionary format
+output_dict = output_parser.parse(response.content)
+print(output_dict)
+"""
+{'gift': False,
+ 'delivery_days': '2',
+ 'price_value': "It's slightly more expensive than the other leaf blowers out there, but I think it's worth it for the extra features."
+}
+"""
+print(output_dict.get('delivery_days')) # 2
 ```
