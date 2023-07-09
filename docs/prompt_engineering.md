@@ -177,9 +177,9 @@ The output should be a markdown code snippet formatted in the following schema, 
 
 \`\`\`json
 {
-	"gift": string  // Was the item purchased                             as a gift for someone else?                              Answer True if yes,                             False if not or unknown.
-	"delivery_days": string  // How many days                                      did it take for the product                                      to arrive? If this                                       information is not found,                                      output -1.
-	"price_value": string  // Extract any                                    sentences about the value or                                     price, and output them as a                                     comma separated Python list.
+	"gift": string  // Was the item purchased as a gift for someone else? Answer True if yes, False if not or unknown.
+	"delivery_days": string  // How many days did it take for the product to arrive? If this information is not found, output -1.
+	"price_value": string  // Extract any sentences about the value or price, and output them as a comma separated Python list.
 }
 \`\`\`
 """
