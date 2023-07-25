@@ -84,7 +84,7 @@ prompt_infos = [
         "prompt_template": math_template
     },
     {
-        "name": "History", 
+        "name": "history", 
         "description": "Good for answering history questions", 
         "prompt_template": history_template
     },
@@ -95,22 +95,30 @@ prompt_infos = [
     }
 ]
 
-# define `ChatPromptTemplate` & and make it as `LLMChain` & store in destination_chains
+# define `ChatPromptTemplate` for each subject & and make it as `LLMChain` & store in destination_chains
+from langchain.chains import LLMChain # this is to  combine ChatPromptTemplate & llm model together as a single node in chain
 
 destination_chains = {}
 for p_info in prompt_infos:
     name = p_info["name"]
     prompt_template = p_info["prompt_template"]
     prompt = ChatPromptTemplate.from_template(template=prompt_template) # define the prompt template
-    chain = LLMChain(llm=llm, prompt=prompt) # make it as LLM Chain
-    destination_chains[name] = chain         # store in destination_chains dict
+    chain = LLMChain(llm=llm, prompt=prompt)                            # make it as LLM Chain
+    destination_chains[name] = chain                                    # store in destination_chains dict
 
 # create destinations of each route   
 destinations = [f"{p['name']}: {p['description']}" for p in prompt_infos]
 destinations_str = "\n".join(destinations)
-
-"""physics: Good for answering questions about physics
+print(destinations_str)
+"""
+physics: Good for answering questions about physics
 math: Good for answering math questions
 History: Good for answering history questions
-computer science: Good for answering computer science questions"""
+computer science: Good for answering computer science questions
+"""
+```
+- Create default prompt & chain in-case the input is not above to map with any above defined subjects
+```Python
+default_prompt = ChatPromptTemplate.from_template("{input}") # create default prompt which only receive the user input
+default_chain = LLMChain(llm=llm, prompt=default_prompt)     # convert it to default chain
 ```
