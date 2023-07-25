@@ -156,6 +156,12 @@ if you don't think any modifications are needed.
 {{input}}
 
 << OUTPUT (remember to include the ```json)>>
+
+
+Example:
+<< INPUT >>
+"What is black body radiation?"
+<< OUTPUT >>
 ```json
 {{{{
 "destination": "physics",
