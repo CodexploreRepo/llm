@@ -96,6 +96,7 @@ prompt_infos = [
 ]
 
 # define `ChatPromptTemplate` for each subject & and make it as `LLMChain` & store in destination_chains
+from langchain.prompts import ChatPromptTemplate
 from langchain.chains import LLMChain # this is to  combine ChatPromptTemplate & llm model together as a single node in chain
 
 destination_chains = {}
@@ -122,3 +123,83 @@ computer science: Good for answering computer science questions
 default_prompt = ChatPromptTemplate.from_template("{input}") # create default prompt which only receive the user input
 default_chain = LLMChain(llm=llm, prompt=default_prompt)     # convert it to default chain
 ```
+- Define `MULTI_PROMPT_ROUTER_TEMPLATE`
+~~~Python
+MULTI_PROMPT_ROUTER_TEMPLATE = """Given a raw text input to a \
+language model select the model prompt best suited for the input. \
+You will be given the names of the available prompts and a \
+description of what the prompt is best suited for. \
+You may also revise the original input if you think that revising\
+it will ultimately lead to a better response from the language model.
+
+<< FORMATTING >>
+Return a markdown code snippet with a JSON object formatted to look like:
+```json
+{{{{
+    "destination": string \ name of the prompt to use or "DEFAULT"
+    "next_inputs": string \ a potentially modified version of the original input
+}}}}
+```
+
+REMEMBER: "destination" MUST be one of the candidate prompt \
+names specified below OR it can be "DEFAULT" if the input is not\
+well suited for any of the candidate prompts.
+REMEMBER: "next_inputs" can just be the original input \
+if you don't think any modifications are needed.
+
+<< CANDIDATE PROMPTS >>
+{destinations}
+
+<< INPUT >>
+{{input}}
+
+<< OUTPUT (remember to include the ```json)>>
+```json
+{{{{
+"destination": "physics",
+"next_inputs": "What is black body radiation?"
+}}}}
+```
+"""
+~~~
+- Create the Prompt Template for the Multi Prompt Router
+```Python
+router_template = MULTI_PROMPT_ROUTER_TEMPLATE.format(
+    destinations=destinations_str
+)
+
+from langchain.prompts import PromptTemplate
+from langchain.chains.router.llm_router import RouterOutputParser # Router Output Parser
+
+router_prompt = PromptTemplate(
+    template=router_template,
+    input_variables=["input"],
+    output_parser=RouterOutputParser(),
+)
+```
+- Define a router chain
+```Python
+router_chain = LLMRouterChain.from_llm(llm, router_prompt)
+```
+- Create a multi prompt chain by combining a `router_chain` and `destination_chains`
+```Python
+chain = MultiPromptChain(router_chain=router_chain, 
+                         destination_chains=destination_chains, 
+                         default_chain=default_chain, verbose=True
+                        )
+chain.run("What is black body radiation?")
+"""
+> Entering new MultiPromptChain chain...
+physics: {'input': 'What is black body radiation?'}
+> Finished chain.
+'Black body radiation refers to the electromagnetic radiation emitted by an object that absorbs all incident radiation and reflects or transmits none. It is called "black body" because it absorbs all wavelengths of light, appearing black at room temperature. \n\nAccording to Planck\'s law, black body radiation is characterized by a continuous spectrum of wavelengths and intensities, which depend on the temperature of the object. As the temperature increases, the peak intensity of the radiation shifts to shorter wavelengths, resulting in a change in color from red to orange, yellow, white, and eventually blue at very high temperatures.\n\nBlack body radiation is a fundamental concept in physics and has significant applications in various fields, including astrophysics, thermodynamics, and quantum mechanics. It played a crucial role in the development of quantum theory and understanding the behavior of light and matter.'
+"""
+chain.run("Why does every cell in our body contain DNA?")
+"""
+> Entering new MultiPromptChain chain...
+None: {'input': 'Why does every cell in our body contain DNA?'}
+> Finished chain.
+'Every cell in our body contains DNA because DNA is the genetic material that carries the instructions for the development, functioning, and reproduction of all living organisms. DNA contains the information necessary for the synthesis of proteins, which are essential for the structure and function of cells. It serves as a blueprint for the production of specific proteins that determine the characteristics and traits of an organism. Additionally, DNA is responsible for the transmission of genetic information from one generation to the next during reproduction. Therefore, every cell in our body contains DNA to ensure the proper functioning and continuity of life.'
+"""
+```
+- 
