@@ -7,3 +7,6 @@
 ### Simple Sequential Chain
 <p align="center"><img width=600 src="https://github.com/CodexploreRepo/llm/assets/64508435/0b30ee0e-54f1-4d4d-b522-12c9071cd0b8"></p>
 
+### Sequential Chain
+<p align="center"><img width=700 src="https://github.com/CodexploreRepo/llm/assets/64508435/f8769451-1ae1-46ad-abe9-2e51796e52d6"></p>
+
