@@ -64,3 +64,53 @@ time complexity and space complexity.
 Here is a question:
 {input}"""
 ```
+  - Create `prompt_infos` list and define `ChatPromptTemplate` & and make it as `LLMChain` (i.e combining `ChatPromptTemplate` & `llm` model together)
+
+```Python
+# define an LLM: in this case we use gpt-3.5-turbo from OpenAI
+from langchain.chat_models import ChatOpenAI
+llm = ChatOpenAI(temperature=0)
+
+# define prompt_infos list 
+prompt_infos = [
+    {
+        "name": "physics", 
+        "description": "Good for answering questions about physics", 
+        "prompt_template": physics_template
+    },
+    {
+        "name": "math", 
+        "description": "Good for answering math questions", 
+        "prompt_template": math_template
+    },
+    {
+        "name": "History", 
+        "description": "Good for answering history questions", 
+        "prompt_template": history_template
+    },
+    {
+        "name": "computer science", 
+        "description": "Good for answering computer science questions", 
+        "prompt_template": computerscience_template
+    }
+]
+
+# define `ChatPromptTemplate` & and make it as `LLMChain` & store in destination_chains
+
+destination_chains = {}
+for p_info in prompt_infos:
+    name = p_info["name"]
+    prompt_template = p_info["prompt_template"]
+    prompt = ChatPromptTemplate.from_template(template=prompt_template) # define the prompt template
+    chain = LLMChain(llm=llm, prompt=prompt) # make it as LLM Chain
+    destination_chains[name] = chain         # store in destination_chains dict
+
+# create destinations of each route   
+destinations = [f"{p['name']}: {p['description']}" for p in prompt_infos]
+destinations_str = "\n".join(destinations)
+
+"""physics: Good for answering questions about physics
+math: Good for answering math questions
+History: Good for answering history questions
+computer science: Good for answering computer science questions"""
+```
