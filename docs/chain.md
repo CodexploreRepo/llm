@@ -112,10 +112,12 @@ destinations = [f"{p['name']}: {p['description']}" for p in prompt_infos]
 destinations_str = "\n".join(destinations)
 print(destinations_str)
 """
-physics: Good for answering questions about physics
-math: Good for answering math questions
-History: Good for answering history questions
-computer science: Good for answering computer science questions
+[
+  'physics: Good for answering questions about physics',
+  'math: Good for answering math questions',
+  'history: Good for answering history questions',
+  'computer science: Good for answering computer science questions'
+]
 """
 ```
 - Create default prompt & chain in-case the input is not above to map with any above defined subjects
