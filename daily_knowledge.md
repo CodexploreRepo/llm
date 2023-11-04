@@ -12,8 +12,8 @@
 
 ## Adjusting Creativity/Randomness
 
-- You can control the behavior of the language model's *decoding strategy* by adjusting the **temperature**, **top-k**, and **top-n** parameters.
-- *Decoding strategy* is to determine the next words in LLM
+- You can control the behavior of the language model's _decoding strategy_ by adjusting the **temperature**, **top-k**, and **top-n** parameters.
+- _Decoding strategy_ is to determine the next words in LLM
   - Greedy decoding: select the one with highest probability, in this example is flower (0.5)
   - Random sample: use the probabilies to sample a random token, say bugs (0.03)
   <p align="center"><img src="./assets/img/temperature-example.png" ></p>
