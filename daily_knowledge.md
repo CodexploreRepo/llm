@@ -1,4 +1,34 @@
-# Day 1
+# Daily Knowledge
+
+## Day 1
+
+### LLM Model Landscape
+
+- Close-source (input/output per MTokens): OpenAI (GPT4-turbo) 128K, Ahthropic (Claude 3 Opus) 200K, Google (Gemimi 1.5 Pro, VertexAI): 1M tokens context window,
+- Open-source (free): Meta (Llama 3) 128K
+
+### Parameter Efficient Fine-tuning (PEFT)
+
+- Parameter Efficient Fine-tuning (PEFT) - freeze all of the weigths & augment a base model with a relatively small number of trainable parameters.
+  - PEFT encapsulates a family of techniques, one of which is the popular LoRA (Low-Rank Adaptation) method
+
+#### LORA
+
+- The basic idea behind LoRA is to pick a subset of layers in an existing model and modify their weights as follows:
+- **Original hidden layer** of a model: $h(x) = W_0*x$, where
+  - $h()$ = the hidden layer that will be tuned
+  - $W_0$ = the original weight matrix for the h with dimension $(d, k)$
+    - For example, $d=1000$, $k=1000$, so $W_0$ will have 1M trainable parameters
+  - $x$ = the input to the hidden layer
+- **LORA** will add $\Delta W$ (a matrix of trainable parameters) into the current hidden layer:
+  $$ H(x) = W_0*x + \Delta W * x$$
+
+- $\Delta W$ is decomposed according to $\Delta W=BA$ , where
+  - $\Delta W$ is a $(d, k)$ matrix,
+  - $B$ is $(d, r)$
+  - $A$ is $(r, k)$
+  - $r$ is the assumed “intrinsic rank” of $\Delta W$, which can be as small as 1 or 2
+- **Key Point** $r$: if $d=1000$, $r=2$, and $k=1000$, so the number of trainable parameters drops from $1M$ to $1000*2 + 2*1000 = 4000$ in that layer
 
 - **API rate limit**: Most API services have rate limits, so if the code was not designed to wait in-between API calls, you may not receive embeddings for all batches of text.
   - This particular service can handle 20 calls per minute. In calls per second, that's 20 calls divided by 60 seconds, or `20/60`
