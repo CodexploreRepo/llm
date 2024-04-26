@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] [Langchain - Summarisation use-case](https://python.langchain.com/docs/use_cases/summarization/)
 - [ ] [RAG Workshop](https://www.youtube.com/live/bNqSRNMgwhQ?si=4W6FNtODtpa5_log) with slide and code in the description
 - [ ] [ArXiv Digest and Personalized Recommendations using Large Language Models](https://github.com/AutoLLM/ArxivDigest)
 - [ ] [Fine-tune Llama 2 for sentiment analysis](https://www.kaggle.com/code/lucamassaron/fine-tune-llama-2-for-sentiment-analysis) with [Medium](https://medium.com/@ud.chandra/instruction-fine-tuning-llama-2-with-pefts-qlora-method-d6a801ebb19)

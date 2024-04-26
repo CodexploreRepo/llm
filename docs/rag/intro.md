@@ -2,12 +2,13 @@
 
 ## Introduction
 
-- RAG: augmenting LLM knowledge with additional data
+- Retrieval-Augmented Generation (or RAG) is an architecture used to help large language models like GPT-4 provide better responses by using relevant information from additional sources and reducing the chances that an LLM will leak sensitive data, or ‘hallucinate’ incorrect or misleading information.
+- In summary - RAG: augmenting LLM knowledge with additional data
   - Indexing:
     - Load (the data in internet),
     - Standardise in a same format (langchain called as document),
     - Split into chunks
-    - Embeded using Embedding models
+    - Embeded using Embedding models such as OpenAI's `text-embedding-ada-002` ([see here for more information](https://platform.openai.com/docs/guides/embeddings/use-cases))
     - Store in vector database
   - Retrieval & Generation
     - Retrival: select the relevant data with your questions
