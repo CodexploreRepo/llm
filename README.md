@@ -1,6 +1,6 @@
 # Large Language Model (LLM)
 
-## Docs
+## General Knowledge
 
 - [1. Large Language Model (LLM) Introduction](./docs/llm_intro.md)
 - [2. Prompt Engineering](./docs/prompt_engineering.md)
@@ -11,3 +11,7 @@
 - [5. LLM Training](./docs/llm_training.md)
 - [6. LLM Fine-tuning](./docs/llm_finetuning.md)
 - [7. RAG](./docs/rag/intro.md)
+
+## Llama
+
+- [Introduction](./docs/llama/intro.md)
