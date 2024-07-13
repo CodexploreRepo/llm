@@ -2,6 +2,45 @@
 
 ## Day 1
 
+### Chat vs Foundation (Base) Models
+
+- There are two types of LLMs: foundation model and chat-version model.
+  - For example: the "Llama 2 7B" is the foundation model, and it is then fined tuned with the instruction to become the chat version model "Llama 2 7B Model"
+- **Foundation (Base) model** did not answer the question, but it returns similar questions to the original questions as it was trained to predict the next word in the sequence.
+  - Base models will be used to fine-tune for the specific tasks
+  - Note: foundation model is not trained to receive the instruction tag.
+
+```Python
+### base model
+prompt = "What is the capital of France?"
+response = llama(prompt,
+                 verbose=True,
+                 add_inst=False, # since the foundation model didnt train to get the instruction tag, so set add_inst=False to avoid add instruction tag
+                 model="togethercomputer/llama-2-7b") # foundation model
+# Prompt:
+# What is the capital of France?
+print(response[:5])
+# 10. What is the capital of Germany?
+# 11. What is the capital of Greece?
+# 12. What is the capital of Hungary?
+# 13. What is the capital of Iceland?
+# 14. What is the capital of India?
+# 15. What is the capital of Indonesia?
+```
+
+- Chat model will add in the [INST][/INST] tag around the prompt
+
+```Python
+prompt = "What is the capital of France?"
+response = llama(prompt,
+                 verbose=True,
+                 model="togethercomputer/llama-2-7b-chat") # chat version of llama2-7b
+# Prompt:
+# [INST]What is the capital of France?[/INST]
+print(reponse)
+# The capital of France is Paris.
+```
+
 ### RAG
 
 - RAG: augmenting LLM knowledge with additional data
