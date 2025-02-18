@@ -2,6 +2,20 @@
 
 ## Day 1
 
+### Transformer
+
+- After the input has been processed through all Transformer blocks, the output is passed through the final linear layer to prepare it for token prediction.
+- This layer projects for every token in the vocabulary a corresponding value called `logits`.
+- Logits are simply divided by the `temperature` to get the `scaled_logits`:
+  - $temperature = 1$: Dividing logits by one has no effect on the softmax outputs.
+  - $temperature < 1$: Lower temperature makes the model more confident and deterministic by sharpening the probability distribution, leading to more predictable outputs.
+  - $temperature > 1$: Higher temperature creates a softer probability distribution, allowing for more randomness in the generated text – what some refer to as model “creativity”.
+- In addition, the sampling process can be further refined using `top-k` and `top-p` parameters:
+  - **top-k sampling**: Limits the candidate tokens to the top k tokens with the highest probabilities, filtering out less likely options.
+  - **top-p sampling**: Considers the smallest set of tokens whose cumulative probability exceeds a threshold p, ensuring that only the most likely tokens contribute while still allowing for diversity.
+
+<p align="center"><img width=400 src="./assets/img/transformer-output-probabilities.png"></p>
+
 ### Chat vs Foundation (Base) Models
 
 - There are two types of LLMs: foundation model and chat-version model.

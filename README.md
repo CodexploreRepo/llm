@@ -2,6 +2,7 @@
 
 ## General Knowledge
 
+- [0. Transformed-based Model](./docs/transformer_based_model.md)
 - [1. Large Language Model (LLM) Introduction](./docs/llm_intro.md)
 - [2. Prompt Engineering](./docs/prompt_engineering.md)
 - [3. Lang Chain Intro](./docs/langchain/intro.md)
